@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /*
  * This is a simple implementation of a LinkedList that stores integers.
  * This class includes basic constructors and simple methods that
