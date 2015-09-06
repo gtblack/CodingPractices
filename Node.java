@@ -58,6 +58,54 @@ public class Node {
 	return reversed;
     }
 
+    /**
+     * Removes a certain int value that is contained by the Node.
+     * @param removeAll whether to remove all occurences or only the first
+     * @param val the value to be removed from the Node
+     * @return the Node object that has the value removed, if exists
+     */
+    public Node remove(boolean removeAll, int val) {
+	if (removeAll) {
+	    // we have to delete all instances of val
+	    if (this.value == val) {
+		// this Node should be removed and its child returned
+		if (this.next == null) {
+		    // if there is no child, return null instantly
+		    return null;
+		} else {
+		    // return the child, but keep removing
+		    return this.next.remove(removeAll, val);
+		}
+	    } else {
+		// remove should be done to its children
+		if (this.next == null) {
+		    // no more child to perform remove, return this
+		    return this;
+		} else {
+		    // the child should also perform remove
+		    this.next = this.next.remove(removeAll, val);
+		    return this;
+		}
+	    }
+	} else {
+	    // deleting only the first occurence should suffice.
+	    if (this.value == val) {
+		// this Node is removed and the next node takes its place.
+		return this.next;
+	    } else {
+		// we should look into its children for the value.
+		if (this.next == null) {
+		    // no more child, return this.
+		    return this;
+		} else {
+		    // the children should go through the remove process.
+		    this.next = this.next.remove(removeAll, val);
+		    return this;
+		}
+	    }
+	}
+    }
+
     public static void main(String[] args) {
 	int[] integers = {1, 2, 4, 5, 3, 6};
 	Node test = new Node(integers);
@@ -72,6 +120,22 @@ public class Node {
 	Node test3 = new Node(5);
 	System.out.println(test3.toString());
 	System.out.println(test3.reverse().toString());
+
+	int[] integers3 = {1, 4, 2, 5, 5, 4};
+	Node test4 = new Node(integers3);
+	System.out.println(test4.toString());
+	System.out.println(test4.remove(true, 5));
+	System.out.println(test4.remove(false, 4));
+	System.out.println(test4.remove(true, 7));
+	
+    }
+
+    public Node getNext() {
+	return this.next;
+    }
+
+    public void setNext(Node node) {
+	this.next = node;
     }
 
 }
